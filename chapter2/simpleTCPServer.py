@@ -1,3 +1,5 @@
+# A passive server that needs a client to actively initiate a connection
+
 import socket
 import threading
 
@@ -11,7 +13,7 @@ def main():
 
     while True:
         client, address = server.accept()
-        print(f'[*] Accepted connection from {address[0]:address[1]}')
+        print(f'[*] Accepted connection from {address[0]}:{address[1]}')
         client_handler = threading.Thread(target=handle_client, args = (client,))
         client_handler.start()
 
